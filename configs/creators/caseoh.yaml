@@ -1,0 +1,12 @@
+# caseoh (Twitch) - measured from a 2026-11 VOD (gameplay segments): cam on the left, just below the top
+# Usage: clipper run VOD -c configs/creators/caseoh.yaml [-c configs/games/gta6.yaml]
+# Layouts change between games/streams: always check with  clipper preview VOD -c configs/creators/caseoh.yaml
+extends: ../../config.yaml
+layout:
+  facecam_height: 700
+  facecam:
+    preset: custom
+    region: [0.0, 0.125, 0.211, 0.278]   # x, y, w, h as fractions of the source frame
+publish:
+  creator: CaseOh
+  creator_url: https://www.twitch.tv/caseoh_

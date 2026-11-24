@@ -1,0 +1,12 @@
+# jynxzi (Twitch) - measured from a 2026-11 VOD (R6 + browser games): cam bottom-left
+# Usage: clipper run VOD -c configs/creators/jynxzi.yaml [-c configs/games/gta6.yaml]
+# Layouts change between games/streams: always check with  clipper preview VOD -c configs/creators/jynxzi.yaml
+extends: ../../config.yaml
+layout:
+  facecam_height: 700
+  facecam:
+    preset: custom
+    region: [0.0, 0.565, 0.323, 0.407]   # x, y, w, h as fractions of the source frame
+publish:
+  creator: Jynxzi
+  creator_url: https://www.twitch.tv/jynxzi

@@ -1,0 +1,38 @@
+# Facecam in the BOTTOM-LEFT corner of the stream.
+# Generic bottom-left cam (25% x 25% of the frame). Check with: clipper preview VIDEO -c configs/preset_bottom_left.yaml
+# Usage: clipper run -c configs/preset_bottom_left.yaml
+# Everything not set here comes from ../config.yaml (your clip count, model, encoder...).
+extends: ../config.yaml
+
+layout:
+  mode: split
+  header_height: 140            # title band
+  facecam_height: 620           # 140 + 620 = top ~40% of the 9:16 frame; gameplay gets 1160 px
+  facecam:
+    preset: bottom-left
+    size: [0.25, 0.25]          # facecam w/h as a fraction of the source frame
+    margin: [0.0, 0.0]          # inset from the corner if the cam has a border/offset
+  gameplay:
+    zoom: 1.0
+    center_x: 0.5               # centre crop keeps right-side chat/alerts out of frame
+    center_y: 0.5
+    fit: crop
+
+captions:                       # bold, high-contrast mobile style
+  font: Arial Black
+  font_size: 92
+  primary_color: "#FFFFFF"
+  highlight_color: "#FFE600"
+  outline_color: "#000000"
+  outline: 8
+  shadow: 4
+  uppercase: true
+  max_words: 3
+  max_chars: 16
+  position: seam                # sits on the facecam/gameplay seam
+  pop: true
+
+title:
+  font: Arial Black
+  font_size: 62
+  uppercase: true

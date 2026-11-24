@@ -1,0 +1,15 @@
+# xqc (Twitch/Kick) - GTA 6 launch layout (measured 2026-11-18, from ~5h into the VOD):
+# cam on the left, just below mid-height. Earlier in the same stream it sat top-left
+# (configs/creators/xqc.yaml) - check with clipper preview when the layout changes.
+# Usage: clipper run VOD -c configs/creators/xqc_gta6.yaml -c configs/games/gta6.yaml
+extends: ../../config.yaml
+layout:
+  facecam_height: 700
+  facecam:
+    preset: custom
+    region: [0.0, 0.5, 0.19, 0.272]   # x, y, w, h as fractions of the source frame
+    alternates:                       # early in the stream the cam sat top-left; the AI picks per clip
+      - [0.0, 0.0, 0.19, 0.235]
+publish:
+  creator: xQc
+  creator_url: https://www.twitch.tv/xqc

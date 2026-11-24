@@ -1,0 +1,14 @@
+# kaicenat_gta6 (Twitch) - GTA 6 layout measured from his launch-day VOD: cam on the left, mid-height. (Outlast/horror layout = configs/preset_top_left.yaml)
+# Usage: clipper run VOD -c configs/creators/kaicenat_gta6.yaml [-c configs/games/gta6.yaml]
+# Layouts change between games/streams: always check with  clipper preview VOD -c configs/creators/kaicenat_gta6.yaml
+extends: ../../config.yaml
+layout:
+  facecam_height: 620
+  facecam:
+    preset: custom
+    region: [0.0, 0.33, 0.2, 0.193]   # x, y, w, h as fractions of the source frame
+    alternates:
+      - [0.0, 0.40, 0.205, 0.20]      # GTA 6 marathon (2026-11-18/19): the cam often sits lower, 40-60% down
+publish:
+  creator: Kai Cenat
+  creator_url: https://www.twitch.tv/kaicenat

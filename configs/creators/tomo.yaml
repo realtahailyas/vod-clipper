@@ -1,0 +1,14 @@
+# Tomo (YouTube @Tomovids) - GTA 6 launch-stream layout, measured 2026-11-19 from his VOD at 1:00:00:
+# webcam on the right, just below mid-height; viewer counter + chat overlay sit top-right.
+# Usage: clipper run VOD -c configs/creators/tomo.yaml -c configs/games/gta6.yaml
+extends: ../../config.yaml
+layout:
+  facecam_height: 620
+  gameplay:
+    center_x: 0.42   # keep the gameplay crop left of the webcam (cam starts at x=0.70)
+  facecam:
+    preset: custom
+    region: [0.70, 0.43, 0.30, 0.31]   # x, y, w, h as fractions of the source frame
+publish:
+  creator: Tomo
+  creator_url: https://www.youtube.com/@Tomovids

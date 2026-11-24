@@ -1,0 +1,50 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vod-clipper"
+version = "0.1.0"
+description = "Turn long 16:9 gaming VODs into captioned 9:16 highlight shorts, fully local."
+requires-python = ">=3.10"
+readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "vod-clipper contributors" }]
+keywords = ["vod", "twitch", "clipper", "highlights", "shorts", "tiktok", "whisper", "captions", "ffmpeg", "vertical-video"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Environment :: Console",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Multimedia :: Video",
+]
+dependencies = [
+  "numpy>=1.26",
+  "pyyaml>=6.0",
+  "rich>=13.0",
+  "faster-whisper>=1.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+ai = ["openai>=1.60"]
+
+[project.urls]
+Homepage = "https://github.com/realtahailyas/vod-clipper"
+Issues = "https://github.com/realtahailyas/vod-clipper/issues"
+
+[project.scripts]
+clipper = "clipper.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.setuptools.package-data]
+clipper = ["default_config.yaml"]

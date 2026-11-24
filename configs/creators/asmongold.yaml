@@ -1,0 +1,12 @@
+# asmongold (Twitch/Kick) - measured from a VOD: cam bottom-left
+# Usage: clipper run VOD -c configs/creators/asmongold.yaml [-c configs/games/gta6.yaml]
+# Layouts change between games/streams: always check with  clipper preview VOD -c configs/creators/asmongold.yaml
+extends: ../../config.yaml
+layout:
+  facecam_height: 700
+  facecam:
+    preset: custom
+    region: [0.0, 0.639, 0.289, 0.361]   # x, y, w, h as fractions of the source frame
+publish:
+  creator: Asmongold
+  creator_url: https://www.twitch.tv/asmongold

@@ -1,0 +1,17 @@
+# Game profile: GTA 6 (story + open world). Combine with a creator preset:
+#   clipper run -c configs/creators/<creator>.yaml -c configs/games/gta6.yaml
+highlights:
+  num_clips: 25
+  min_gap: 60
+ai:
+  story_scenes: true
+  fill: true
+  min_score: 3.5
+  # GTA 6 has strip clubs / nudity: 9 frames at high detail so the adult-content check sees more
+  frames: 9
+  image_detail: high
+  block_adult: true
+  context: "GTA 6 (new release, story + open world): police chases, crashes, shootouts, ragdoll physics, funny NPC interactions, wild driving, major story cutscenes and first-impression reactions"
+publish:
+  game: "GTA 6"
+  hashtags: ["#Shorts", "#GTA6", "#GTAVI"]

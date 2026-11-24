@@ -1,0 +1,14 @@
+# ishowspeed (YouTube) - GTA 6 layout measured from his 2026-11-18 launch stream:
+# cam on the left at mid-height, black letterbox bars top and bottom.
+# Usage: clipper run VOD -c configs/creators/ishowspeed_gta6.yaml -c configs/games/gta6.yaml
+extends: ../../config.yaml
+layout:
+  facecam_height: 620
+  facecam:
+    preset: custom
+    region: [0.0, 0.43, 0.2, 0.215]   # x, y, w, h as fractions of the source frame
+  gameplay:
+    zoom: 1.12                         # crops the black letterbox bars
+publish:
+  creator: IShowSpeed
+  creator_url: https://www.youtube.com/@IShowSpeed

@@ -1,0 +1,151 @@
+# vod-clipper configuration. Every key is optional; values below are the defaults.
+# Relative paths are resolved against the folder containing this file.
+# Preset files can start from another file with a top-level `extends: path/to/base.yaml`
+# (relative to the preset's folder); keys in the preset override the base.
+
+paths:
+  input_dir: input            # where `clipper run` looks for VODs when no inputs are given
+  output_dir: output          # clips land in <output_dir>/<video stem>/
+  temp_dir: null              # scratch folder for audio/ASS files; null = system temp
+  cache_dir: .cache           # audio-analysis cache (re-runs skip the long scan)
+
+highlights:
+  num_clips: 25               # how many highlights to pick per video
+  min_duration: 35.0          # shortest clip in seconds
+  max_duration: 60.0          # longest clip in seconds
+  pre_roll: 30.0              # seconds kept before the peak (build-up)
+  post_roll: 15.0             # seconds kept after the peak (reaction)
+  min_gap: 60.0               # min seconds between two selected peaks (60: back-to-back action sequences in GTA-type streams)
+  skip_start: 300.0           # ignore the first N seconds (starting-soon screen, intro music)
+  skip_end: 120.0             # ignore the last N seconds (outro, raid)
+  snap_window: 3.0            # max seconds a cut may move to land on silence / sentence edge
+  snap_to_sentences: true     # use the transcript to avoid cutting mid-sentence
+  audio_track: 0              # audio stream index used for analysis (e.g. a mic-only track)
+  hop: 0.5                    # analysis resolution in seconds (bigger = faster, coarser)
+  weights:
+    loudness: 0.45            # overall level vs. local baseline
+    vocal: 0.35               # 300-3400 Hz speech-band energy (yelling, laughing)
+    excitement: 0.2           # sudden upward jumps in loudness
+  chat:
+    enabled: true             # use a chat log if one is found
+    file: null                # explicit chat file; null = auto-detect next to the video
+    weight: 0.6               # how much chat activity adds to the audio score
+    window: 10.0              # seconds; message-rate smoothing window
+    delay: 4.0                # chat reacts late: shift chat activity earlier by this many seconds
+
+layout:
+  width: 1080                 # output width (even number)
+  height: 1920                # output height (even number)
+  mode: split                 # split (facecam + gameplay) | gameplay_only
+  header_height: 140          # top band for the title text in px (0 to disable)
+  facecam_height: 620         # facecam band in px; gameplay gets the remaining height
+  background_color: '#000000' # colour of the header band / padding
+  facecam:
+    preset: bottom-left       # top-left | top-right | bottom-left | bottom-right | custom
+    size: [0.26, 0.3]         # [w, h] fraction of the source frame, for presets
+    margin: [0.0, 0.0]        # [x, y] inset from the corner, fraction of the source
+    region: null              # custom only: [x, y, w, h]; values <= 1 are fractions, > 1 are pixels
+  gameplay:
+    zoom: 1.0                 # 1.0 = full source height; >1 zooms in (must be >= 1)
+    center_x: 0.5             # horizontal focus point, 0..1
+    center_y: 0.5             # vertical focus point, 0..1
+    fit: crop                 # crop (fill, cut the sides) | blur (whole frame over a blurred fill)
+
+captions:
+  enabled: true               # word-by-word burned-in captions
+  font: Arial Black           # font family name (installed, or found in fonts_dir)
+  fonts_dir: null             # folder with custom .ttf/.otf files
+  font_size: 84               # px on the 1080x1920 canvas
+  primary_color: '#FFFFFF'    # normal text colour
+  highlight_color: '#FFE600'  # colour of the word being spoken
+  outline_color: '#000000'    # outline colour
+  outline: 7.0                # outline thickness
+  shadow: 3.0                 # shadow distance
+  uppercase: true             # SHOUT THE CAPTIONS
+  censor: true                # mask slurs + strong swears on screen and in the .srt (YouTube age-restricts on-screen swearing)
+  max_words: 3                # words shown at once
+  max_chars: 18               # max characters shown at once
+  position: seam              # seam (between facecam and gameplay) | gameplay | bottom
+  y_offset: 0                 # extra pixels, positive moves down
+  pop: true                   # scale "pop" animation on the active word
+
+title:
+  text: ''                    # '' = no title. Placeholders: {n} clip number, {stem} video name, {hook} AI hook
+  font: Arial Black           # title font family
+  font_size: 60               # px (auto-shrinks for long text)
+  color: '#FFFFFF'            # text colour
+  outline_color: '#000000'    # outline colour
+  outline: 4.0                # outline thickness
+  uppercase: true             # uppercase the title
+
+watermark:
+  enabled: true               # burn the channel name into every clip and preview
+  text: '@YourChannel'     # watermark text
+  font: Arial Black           # watermark font family
+  font_size: 34               # px
+  color: '#FFFFFF'            # text colour
+  opacity: 0.38               # 0..1 (0.35-0.40 = subtle)
+  outline_color: '#000000'    # outline colour
+  outline: 2.0                # thin dark outline
+  shadow: 1.0                 # shadow depth
+  position: facecam_bottom_right  # facecam_bottom_right | facecam_top_right | header_right | bottom_right | custom
+  margin: 18                  # px from the edges of the chosen area
+  x: 0                        # custom only: output pixels, anchor = bottom-right of the text
+  y: 0
+
+publish:
+  enabled: true               # after `clipper run`, package the clips into root (needs publish.creator)
+  root: publish               # local folder; point it at a Google Drive for Desktop folder to auto-sync
+  platform: YouTube
+  game: ""                    # e.g. "GTA 6" (set by configs/games/*.yaml)
+  creator: ""                 # display name, e.g. xQc (set by configs/creators/*.yaml)
+  creator_url: ""             # credit link, e.g. https://www.twitch.tv/xqc
+  channel: "@YourChannel"
+  skip_weak: true             # don't package clips the AI marked weak
+  hashtags: ["#Shorts"]       # always added; game/creator tags are added automatically
+  ai_metadata: true           # write title/description/tags with the AI model (falls back to a template)
+  cta: ''                     # extra description line after the credit, e.g. a campaign's required call to action
+  drive_folder: Automation/Shorts  # Drive mirror named in HANDOVER.md ('' = none)
+
+transcription:
+  model: small.en             # CPU: small.en (best accuracy/speed; base.en hallucinates on game noise). GPU: large-v3 / distil-large-v3
+  device: auto                # auto | cuda | cpu
+  compute_type: int8          # int8 = fastest on CPU | float16 on an NVIDIA GPU | auto
+  cpu_threads: 6              # whisper CPU threads; 6 was fastest on a 12-thread i5-1245U (4 and 8 were slower). 0 = auto
+  language: en                # en (required by *.en models) | null = auto-detect for multilingual models
+  beam_size: 1                # 1 = greedy, fastest; 5 gave identical text on stream audio
+  vad_filter: false           # keep false for gaming: VAD drops screams/reactions buried under game audio
+
+render:
+  encoder: auto               # auto | h264_nvenc | hevc_nvenc | h264_qsv | hevc_qsv | h264_amf | hevc_amf | libx264 | libx265
+  quality: 21                 # CRF / CQ (lower = better and bigger)
+  fps: null                   # null = source fps capped at 60
+  audio_bitrate: 192k         # AAC bitrate
+  audio_track: 0              # audio stream used in the output clip
+  normalize_audio: true       # EBU R128 loudnorm to -14 LUFS
+  hwaccel: none               # decode accel: none (fastest here: filters run on CPU anyway) | auto | cuda | qsv | d3d11va
+  workers: 1                  # parallel ffmpeg renders; 1 is fastest on a laptop iGPU (single QSV engine, 15 W CPU)
+
+ai:
+  enabled: auto               # auto = on when the API key is found | true | false
+  model: gpt-6-luna           # cheapest current OpenAI model with image input ($0.10 in / $0.50 out per 1M)
+  api_key_env: OPENAI_API_KEY # env var (or .env entry next to this file) holding the key
+  reasoning_effort: low       # none | low | medium | high
+  candidate_multiplier: 2.5   # judge ~2.5x num_clips candidates (25 clips -> 63 candidates)
+  max_candidates: 120         # hard cap on judged candidates
+  frames: 4                   # frames per candidate, combined into one 2x2 contact sheet
+  image_detail: low           # low | high | auto
+  min_score: 4.0              # drop clips the AI scores below this (0-10)
+  fill: true                  # fewer than num_clips pass min_score -> fill up with the next best (flagged weak)
+  story_scenes: false         # newly released story game: cutscenes / plot moments are valuable clips
+  block_adult: true           # never keep clips with nudity / strip clubs / sexual content (AI + transcript)
+  weight: 0.75                # final = weight*ai_score + (1-weight)*audio_score (both 0-10)
+  titles: true                # use the AI hook as the title when title.text is empty, or via {hook}
+  context: ''                 # e.g. "Kai Cenat GTA 6 stream" - helps the AI judge
+  max_cost_usd: 1.0           # per-run budget; AI stops (audio ranking continues) once reached
+  price_input_per_m: 0.1      # USD per 1M input tokens
+  price_output_per_m: 0.5     # USD per 1M output tokens
+  concurrency: 4              # parallel API calls
+  timeout: 60.0               # seconds per API call
+
+keep_temp: false              # keep temp files (audio, .ass) for debugging
