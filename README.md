@@ -4,6 +4,8 @@
 
 ![Python](https://img.shields.io/badge/python-3.10%2B-blue) ![License: MIT](https://img.shields.io/badge/license-MIT-green)
 
+<p align="center"><img src="docs/demo.gif" alt="vod-clipper demo: a long GTA 6 stream turned into a captioned 9:16 Short with one command" width="320"></p>
+
 Turns long 16:9 gaming VODs (`.mp4` / `.mkv`) into ready-to-publish 1080x1920 vertical highlight clips for YouTube Shorts, TikTok and Reels, fully local. Drop VODs in `input/`, run one command, get clips in `output/`.
 
 ## Quick start
